@@ -32,7 +32,7 @@ public class SeleniumSteps {
     @Given("^I open chrome with URL \"([^\"]*)\"$")    
     public void Open_Chrome(String URL) throws Throwable 
     {
-    	System.setProperty("webdriver.chrome.driver" ,  "chromedriver_win32/chromedriver86.exe");
+    	System.setProperty("webdriver.chrome.driver" ,  "chromedriver_win32/chromedriver87.exe");
     	driver = new ChromeDriver();
     	driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     	driver.get(URL);
