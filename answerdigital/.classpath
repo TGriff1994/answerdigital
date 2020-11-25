@@ -17,7 +17,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/griff/git/answerdigital/answerdigital/library/cucumber-junit-1.2.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/griff/git/answerdigital/answerdigital/library/junit-4.11.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
