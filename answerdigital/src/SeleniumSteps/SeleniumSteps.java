@@ -65,8 +65,7 @@ public class SeleniumSteps {
     public void Click_element_xpath (String xpath) throws Throwable
     {
     	try {
-			WebElement Input = driver.findElement(By.xpath(xpath));
-							
+			WebElement Input = driver.findElement(By.xpath(xpath));							
 			Actions cursor= new Actions(driver);
 			cursor.moveToElement(Input).click().build().perform();
 			System.out.println("clicked the element with xpath \""+xpath+"\"");
@@ -228,7 +227,35 @@ public class SeleniumSteps {
 			
 		}
     }
-   
+    
+    
+    @Then ("^the element with xpath \"([^\"]*)\" has value \"([^\"]*)\"$")
+    public void Verify_value(String xpath, String value) throws Throwable
+    {
+    	
+    	try {
+    	
+    		WebElement Input = driver.findElement(By.xpath(xpath));
+    		String Output = Input.getAttribute("value");
+    		if (Output.equals(value)){
+    			System.out.println("value of element with xpath \""+xpath+"\" is \""+value+"\"");
+			}
+			else {
+				driver.close();
+				System.out.println("Value of element with xpath \""+xpath+"\" is \""+Output+"\"");
+				System.out.println("It should be \""+value+"\"");
+			
+				fail("Waiting for Value currently \""+Output+"\" to be \""+value+"\"");
+			}
+    	}
+    	catch (org.openqa.selenium.NoSuchElementException e) {
+    		driver.close();
+			System.out.println("unable to verify the value of element with xpath \""+xpath+"\" as it does not appear");
+			
+			fail("cannot find element with xpath \""+xpath+"\"");
+    	}
+    	
+    }
     
     //check the URL of the current page
     @Then ("^the current URL is \"([^\"]*)\"$")
@@ -277,7 +304,79 @@ public class SeleniumSteps {
     {
     	    	
     	//I know this method isn't ideal, but I'm unsure of how to wait until the scroll bar has fully load
+    	System.out.println("Waiting "+time+"ms");
     	Thread.sleep(time);
+    }
+    
+    @And ("^the element with xpath \"([^\"]*)\" is visible")
+    public void visible_xpath(String xpath) throws Throwable
+    {
+    	
+    	try {
+    		System.out.println("looking for element with xpath\""+xpath+"\"");
+    		WebDriverWait wait = new WebDriverWait(driver, 20);
+    		wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(xpath)));
+    	}
+    	
+    	catch(org.openqa.selenium.TimeoutException e){
+    		driver.close();
+			System.out.println("unable to find the element with xpath \""+xpath+"\"");
+			fail("cannot find element with xpath \""+xpath+"\"");
+    		
+    	}
+    }
+    
+    @And ("^the element with id \"([^\"]*)\" is visible$")
+    public void visible_id(String id) throws Throwable
+    {
+    	
+    	try {
+    		System.out.println("looking for element with id\""+id+"\"");
+    		WebDriverWait wait = new WebDriverWait(driver, 20);
+    		wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.id(id)));
+    	}
+    	
+    	catch(org.openqa.selenium.TimeoutException e){
+    		driver.close();
+			System.out.println("unable to find the element with id \""+id+"\"");
+			fail("cannot find element with id \""+id+"\"");
+    		
+    	}
+    }
+    
+    @And ("^the element with xpath \"([^\"]*)\" is not visible$")
+    public void invisible_xpath(String xpath) throws Throwable
+    {
+    	try {
+    		System.out.println("waiting for element with xpath\""+xpath+"\" to not be visible");
+    		WebDriverWait wait = new WebDriverWait(driver, 20);
+    		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(xpath)));
+    	}
+    	
+    	catch(org.openqa.selenium.TimeoutException e){
+    		driver.close();
+			System.out.println("the element with xpath \""+xpath+"\" is still visible");
+			fail("the element with xpath \""+xpath+"\" is still visible");
+    		
+    	}
+    }
+    
+    @And ("^the element with id \"([^\"]*)\" is not visible$")
+    public void invisible_id(String id) throws Throwable
+    {
+    	
+    	try {
+    		System.out.println("waiting for element with id\""+id+"\" to not be visible");
+    		WebDriverWait wait = new WebDriverWait(driver, 20);
+    		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id(id)));
+    	}
+    	
+    	catch(org.openqa.selenium.TimeoutException e){
+    		driver.close();
+			System.out.println("the element with id \""+id+"\" is still visible");
+			fail("the element with id \""+id+"\" is still visible");
+    		
+    	}
     }
     
     //this function will do nothing. Can be used for scenario outlines.
@@ -293,4 +392,7 @@ public class SeleniumSteps {
     {
     	driver.close();
     }
+    
+    
+    
 }
