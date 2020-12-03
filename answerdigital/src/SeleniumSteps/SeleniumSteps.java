@@ -166,7 +166,28 @@ public class SeleniumSteps {
 			
 		}
     }
+  //I know this method isn't ideal, but I'm unsure of how to move the slider
+    @When ("^I press LEFT (\\d+) times to the element with xpath \"([^\"]*)\"$")
+    public void Press_Left_Multi_xpath (int times, String xpath) throws Throwable
+    {
+    	try {
+    		
+    		for (int i = 1; i <= times; i++)
+    		{
+    			WebElement Input = driver.findElement(By.xpath(xpath));
+    			Input.click();
+    			Input.sendKeys(Keys.LEFT);
+    		}
+    		System.out.println("entered Left key "+ times + " times into the element with xpath \""+xpath+"\"");
+    		
+    	}
+    	catch (org.openqa.selenium.InvalidSelectorException e) {
+			driver.close();
+			System.out.println("element with xpath \""+xpath+"\" does not appear");
+			fail("cannot find element with xpath \""+xpath+"\"");
     
+    	}
+    }
     
     //verify the text of the element using the id
     @Then("^the element with id \"([^\"]*)\" is \"([^\"]*)\"$")

@@ -7,7 +7,7 @@ import cucumber.api.junit.Cucumber;
 
 @RunWith(Cucumber.class)				
 @CucumberOptions(
-	features = "features", glue={"SeleniumSteps"}, tags = {"@summer"})						
+	features = "features", glue={"SeleniumSteps"}, tags = {"@slider"})						
 public class RunTest 				
 {		
 
