@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.internal.runners.statements.Fail;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -75,6 +76,23 @@ public class SeleniumSteps {
 			System.out.println("Unable to click element with xpath \""+xpath+"\" as it does not appear");
 			fail("cannot find element with xpath \""+xpath+"\"");
 		}
+    }
+    
+    @When ("^I hover over element with xpath \"([^\"]*)\"$")
+    public void hover (String xpath) throws Throwable
+    {
+    	try {
+			WebElement Input = driver.findElement(By.xpath(xpath));							
+			Actions cursor= new Actions(driver);
+			cursor.moveToElement(Input).perform();
+			System.out.println("hover over the element with xpath \""+xpath+"\"");
+		}
+		catch (org.openqa.selenium.NoSuchElementException e){
+			driver.close();
+			System.out.println("Unable to hover over element with xpath \""+xpath+"\" as it does not appear");
+			fail("cannot find element with xpath \""+xpath+"\"");
+		}
+    	
     }
     
     
@@ -257,6 +275,9 @@ public class SeleniumSteps {
     	
     }
     
+    
+    
+    
     //check the URL of the current page
     @Then ("^the current URL is \"([^\"]*)\"$")
     public void Verify_URL(String input) throws Throwable
@@ -348,7 +369,7 @@ public class SeleniumSteps {
     public void invisible_xpath(String xpath) throws Throwable
     {
     	try {
-    		System.out.println("waiting for element with xpath\""+xpath+"\" to not be visible");
+    		System.out.println("verifying that the element with xpath\""+xpath+"\" is not visible");
     		WebDriverWait wait = new WebDriverWait(driver, 20);
     		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(xpath)));
     	}
